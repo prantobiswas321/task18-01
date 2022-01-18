@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 import './Header.css';
 
 const Header = () => {
+    const { user, logOut } = useAuth();
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-color">
             <div className="container">
@@ -24,7 +26,7 @@ const Header = () => {
                                     className="me-3 text-decoration-none" to="/home" >Home</NavLink>
                             </li>
 
-                            <li className="nav-item navLinks">
+                            {/* <li className="nav-item navLinks">
                                 <NavLink className="me-3 text-decoration-none" to="/login" style={({ isActive }) => {
                                     return {
                                         display: "block",
@@ -32,9 +34,9 @@ const Header = () => {
                                         color: isActive ? "red" : "yellow"
                                     };
                                 }}>Login</NavLink>
-                            </li>
+                            </li> */}
 
-                            <li className="nav-item navLinks">
+                            {/* <li className="nav-item navLinks">
                                 <NavLink className="me-3 text-decoration-none" to="/Register" style={({ isActive }) => {
                                     return {
                                         display: "block",
@@ -42,31 +44,35 @@ const Header = () => {
                                         color: isActive ? "red" : "yellow"
                                     };
                                 }} >Register</NavLink>
-                            </li>
+                            </li> */}
+
 
                             {
-                                // user.email &&
-                                // <li className="nav-item">
-                                //     <NavLink style={{ color: 'yellow' }} className="me-3 text-decoration-none navLinks" to="/dashboard" activeClassName="selected"
-                                //         activeStyle={{ color: '#00FFFF' }} >Dashboard</NavLink>
-                                // </li>
+                                !user.email &&
+                                <li className="nav-item navLinks">
+                                    <NavLink className="me-3 text-decoration-none" to="/Register" style={({ isActive }) => {
+                                        return {
+                                            display: "block",
+                                            // margin: "1rem 0",
+                                            color: isActive ? "red" : "yellow"
+                                        };
+                                    }} >Register</NavLink>
+                                </li>
                             }
 
-                            {/* {!user.email &&
-                                <li className="nav-item navLinks">
-                                    <NavLink style={{ color: 'yellow' }} className="me-3 text-decoration-none" to="/register" activeClassName="selected"
-                                        activeStyle={{ color: '#00FFFF' }}>Register</NavLink>
-                                </li> */}
-                            {/* } */}
-
                             {
-                                // user?.email ?
-                                //     <button className="btn btn-success" onClick={logOut} > <span className="fw-bold text-info">Log Out</span> {user.displayName}</button>
-                                //     :
-                                //     <li className="nav-item">
-                                //         <NavLink style={{ color: 'yellow' }} className="me-3 text-decoration-none navLinks" to="/login" activeClassName="selected"
-                                //             activeStyle={{ color: '#00FFFF' }} >Login</NavLink>
-                                //     </li>
+                                user?.email ?
+                                    <button className="btn btn-success" onClick={logOut} > <span className="fw-bold text-info">Log Out</span> {user.displayName}</button>
+                                    :
+                                    <li className="nav-item navLinks">
+                                        <NavLink className="me-3 text-decoration-none" to="/login" style={({ isActive }) => {
+                                            return {
+                                                display: "block",
+                                                // margin: "1rem 0",
+                                                color: isActive ? "red" : "yellow"
+                                            };
+                                        }} >Login</NavLink>
+                                    </li>
                             }
                         </ul>
 

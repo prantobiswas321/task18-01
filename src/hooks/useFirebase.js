@@ -38,7 +38,7 @@ const useFirebase = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const destination = location?.state?.from || '/';
-                navigate.replace(destination);
+                navigate(destination);
                 setAuthError('');
             })
             .catch((error) => {

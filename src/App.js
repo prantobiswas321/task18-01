@@ -11,6 +11,7 @@ import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Header from './components/Header/Header';
 import AuthProvider from './context/AuthProvider/AuthProvider';
+import PrivateRoute from './components/Login/PrivateRoute/PrivateRoute';
 
 function App() {
   return (
@@ -19,8 +20,13 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<Home />} />
+            {/* <Route path="/" element={<Navigate to="/home" />} /> */}
+            <Route path="/" element={<PrivateRoute>
+              <Home />
+            </PrivateRoute>} />
+            <Route path="/home" element={<PrivateRoute>
+              <Home />
+            </PrivateRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             {/* <Route>Not Found</Route> */}
