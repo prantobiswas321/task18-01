@@ -1,8 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 import login from '../../images/login.png';
 
 const Register = () => {
+    const { user, registerUser, isLoading, authError } = useAuth();
+
+    const navigate = useNavigate();
+
+    const [loginData, setLoginData] = useState({});
+
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newLoginData = { ...loginData };
+        newLoginData[field] = value;
+        setLoginData(newLoginData);
+    }
+
+    const handleLoginSubmit = e => {
+        if (loginData.password !== loginData.password1) {
+            alert('Your password did not match');
+            return
+        }
+        registerUser(loginData.email, loginData.password, loginData.name, navigate);
+        e.preventDefault();
+    }
+
+
     return (
         <div>
             <div className="container">
@@ -10,29 +35,29 @@ const Register = () => {
                     <div className="my-auto col-12 col-lg-6">
                         <h2>Register Your Account!!!</h2>
 
-                        <form onSubmit="" className='mt-3'>
+                        <form onSubmit={handleLoginSubmit} className='mt-3'>
                             <div className="row mb-3">
                                 <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Name :</label>
                                 <div className="col-sm-10">
-                                    <input type="text" className="form-control" name="name" onBlur="" required />
+                                    <input type="text" className="form-control" name="name" onBlur={handleOnBlur} required />
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Email :</label>
                                 <div className="col-sm-10">
-                                    <input type="email" className="form-control" name="email" onBlur="" required />
+                                    <input type="email" className="form-control" name="email" onBlur={handleOnBlur} required />
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">Password :</label>
                                 <div className="col-sm-10">
-                                    <input type="password" className="form-control" name="password" onBlur="" required />
+                                    <input type="password" className="form-control" name="password" onBlur={handleOnBlur} required />
                                 </div>
                             </div>
                             <div className="row mb-3">
                                 <label htmlFor="inputPassword3" className="col-sm-2 col-form-label">Re-type Password :</label>
                                 <div className="col-sm-10">
-                                    <input type="password" className="form-control" name="password1" onBlur="" required />
+                                    <input type="password" className="form-control" name="password1" onBlur={handleOnBlur} required />
                                 </div>
                             </div>
 
@@ -41,23 +66,23 @@ const Register = () => {
 
 
                         {
-                            // isLoading && <div className="d-flex justify-content-center">
-                            //     <div className="spinner-border" role="status">
-                            //         <span className="visually-hidden">Loading...</span>
-                            //     </div>
-                            // </div>
+                            isLoading && <div className="d-flex justify-content-center">
+                                <div className="spinner-border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                         }
 
                         {
-                            // user?.email && <div className="alert alert-success mt-3" role="alert">
-                            //     Successfully Registered!
-                            // </div>
+                            user?.email && <div className="alert alert-success mt-3" role="alert">
+                                Successfully Registered!
+                            </div>
                         }
 
                         {
-                            // authError && <div className="alert alert-danger mt-3" role="alert">
-                            //     {authError}
-                            // </div>
+                            authError && <div className="alert alert-danger mt-3" role="alert">
+                                {authError}
+                            </div>
                         }
 
                         {/* <h1 className="my-3 textColor fw-bold">or,</h1>
